@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>Babby's First Todo</title>
+    </head>
+    <form action="/tasks/add" method="post">
+        <div>
+            <label>Category</label>
+            <input type="text" name="category" placeholder="Enter category...">
+            <label>Task name</label>
+            <input type="text" name="name" placeholder="Enter name...">
+            <label>Description</label>
+            <input type="text" name="description" placeholder="Quick description...">
+            <label>Goal Date</label>
+            <input type="text" name="goal_date" placeholder="Goal date (YYYY-MM-DD)...">
+            <br>
+            <button type="submit">Add</button>
+        </div>
+    </form>
+    <h1>Incomplete Tasks</h1>
+    {% for category in tasks["incomplete"] %}
+        <h3>{{category}}</h3>
+        <ul>
+            {% for task in tasks["incomplete"][category] %}
+                <li>[{{task.name}}] [Due by: {{task.goal_date}}]: {{task.description}}</li>
+                <input type="checkbox" id="{{task.id}}">
+                <a href="/tasks/complete/{{task.id}}">Complete</a>
+                <a href="/tasks/delete/{{task.id}}">Delete</a>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    <h1>Completed Tasks</h1>
+    {% for category in tasks["complete"] %}
+        <h3>{{category}}</h3>
+        <ul>
+            {% for task in tasks["complete"][category] %}
+                <li>[{{task.name}}]: {{task.description}}</li>
+                <a href="/tasks/delete/{{task.id}}">Delete</a>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</html>
